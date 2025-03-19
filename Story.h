@@ -5,8 +5,8 @@
 using namespace std;
 class Story {
 public:
-    string description;
     int eventNumber;
+    string description;
     int leftEventNumber;
     int rightEventNumber;
 
@@ -14,7 +14,7 @@ public:
     Story();
 
     // Parameterized constructor
-    Story(string desc, int num, int leftNum, int rightNum);
+    Story(int num, string desc, int leftNum, int rightNum);
 };
 
 #endif // STORY_H
