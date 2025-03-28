@@ -24,6 +24,7 @@ public:
         string line;
         ifstream file(filename);
         vector< Node<T>* > vectorOfNodes;
+        Node<T> *node;
 
         string eventNumber, eventDescription, leftNum, rightNum;
 
@@ -33,14 +34,14 @@ public:
             getline(lineStreamed, eventDescription, '|');
             getline(lineStreamed, leftNum, '|');
             getline(lineStreamed, rightNum, '|');
-            Story storyline(stoi(eventNumber), eventDescription, stoi(leftNum), stoi(rightNum));
-            Node<T> *node = new Node(storyline);
+            Story storyline(eventDescription, stoi(eventNumber), stoi(leftNum), stoi(rightNum) );
+            node = new Node(storyline);
             vectorOfNodes.push_back( node );
         }
 
         root = vectorOfNodes.at(0);
         for (Node<T> *node: vectorOfNodes) {
-            if (node -> data.leftEventNumber == -1 && node -> data.leftEventNumber == -1) {
+            if (node -> data.leftEventNumber == -1 && node -> data.rightEventNumber == -1) {
                 node -> left = NULL;
                 node -> right = NULL;
             }
@@ -62,34 +63,56 @@ public:
     // TODO: Function to start the game and traverse the tree based on user input
     void playGame() {
         Node<T> *temp = root;
-        int userIntInput;
-        string userStringInput;
+
         while (temp) {
-            cout << "\n" << temp -> data.description;
+            cout << temp -> data.description;
             if (temp -> left == NULL && temp -> right == NULL) {
                 cout << "\nYou've reached the end. Thanks for playing!";
                 temp = NULL;
             }
             else if (temp -> left != NULL && temp -> right == NULL) {
-                cout << " " << temp -> data.leftEventNumber << " Continue?";
-                cin >> userStringInput;
+                cout << " Enter 1 to continue.";
+                validateUserInput("Single Option");
                 temp = temp -> left;
             }
             else if (temp -> left == NULL && temp -> right != NULL) {
-                cout << " " << temp -> data.rightEventNumber << " Continue?";
-                cin >> userStringInput;
+                cout << " Enter 1 to continue.";
+                validateUserInput("Single Option");
                 temp = temp -> right;
             }
             else {
-                cout << temp -> data.leftEventNumber << " or " << temp -> data.rightEventNumber << "?";
-                cin >> userIntInput;
-                if (userIntInput == temp -> data.leftEventNumber)
+                cout << " 1 or 2? - ";
+                int userInput = validateUserInput("Double Option");
+                if (userInput == 1)
                     temp = temp -> left;
-                else if (userIntInput == temp -> data.rightEventNumber)
+                else if (userInput == 2)
                     temp = temp -> right;
             }
         }
     }
+
+    int validateUserInput(string typeOfLeaf) {
+        string userInput;
+        if (typeOfLeaf == "Single Option") {
+            cin >> userInput;
+            while (userInput != "1") {
+                cout << "Please press enter 1 to continue.";
+                cin >> userInput;
+            }
+            return 1;
+        }
+
+        if (typeOfLeaf == "Double Option") {
+            cin >> userInput;
+            while (userInput != "1" && userInput != "2") {
+                cout << "Please enter either 1 or 2 to choose your path.";
+                cin >> userInput;
+            }
+            return stoi(userInput);
+        }
+        return 1; //placeholder line, to avoid errors, this will never actually run.
+    }
+
 };
 
 #endif // GAMEDECISIONTREE_H
