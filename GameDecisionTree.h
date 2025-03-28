@@ -22,7 +22,7 @@ public:
     void loadStoryFromFile(const string& filename, char delimiter) {
 
         string line;
-        ifstream file(filename);
+        ifstream file("../" + filename);
         vector< Node<T>* > vectorOfNodes;
         Node<T> *node;
 
