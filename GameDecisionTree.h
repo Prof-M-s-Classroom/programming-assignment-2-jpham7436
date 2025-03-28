@@ -39,7 +39,7 @@ public:
             vectorOfNodes.push_back( node );
         }
 
-        root = vectorOfNodes.at(0);
+        root = vectorOfNodes[0];
         for (Node<T> *node: vectorOfNodes) {
             if (node -> data.leftEventNumber == -1 && node -> data.rightEventNumber == -1) {
                 node -> left = NULL;
