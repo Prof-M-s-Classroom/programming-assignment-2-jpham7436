@@ -22,7 +22,7 @@ public:
     void loadStoryFromFile(const string& filename, char delimiter) {
 
         string line;
-        ifstream file("../" + filename);
+        ifstream file("../Pham_JasonRPG/" + filename);
         vector< Node<T>* > vectorOfNodes;
         Node<T> *node;
 
@@ -35,27 +35,27 @@ public:
             getline(lineStreamed, leftNum, '|');
             getline(lineStreamed, rightNum, '|');
             Story storyline(eventDescription, stoi(eventNumber), stoi(leftNum), stoi(rightNum) );
-            node = new Node(storyline);
+            node = new Node<T>(storyline);
             vectorOfNodes.push_back( node );
         }
 
         root = vectorOfNodes[0];
-        for (Node<T> *node: vectorOfNodes) {
-            if (node -> data.leftEventNumber == -1 && node -> data.rightEventNumber == -1) {
-                node -> left = NULL;
-                node -> right = NULL;
+        for (Node<T> *temp: vectorOfNodes) {
+            if (temp -> data.leftEventNumber == -1 && temp -> data.rightEventNumber == -1) {
+                temp -> left = NULL;
+                temp -> right = NULL;
             }
-            else if (node -> data.leftEventNumber == -1 && node -> data.rightEventNumber != -1) {
-                node -> left = NULL;
-                node -> right = vectorOfNodes.at(node -> data.rightEventNumber - 1);
+            else if (temp -> data.leftEventNumber == -1 && temp -> data.rightEventNumber != -1) {
+                temp -> left = NULL;
+                temp -> right = vectorOfNodes.at(temp -> data.rightEventNumber - 1);
             }
-            else if (node -> data.leftEventNumber != -1 && node -> data.rightEventNumber == -1) {
-                node -> left = vectorOfNodes.at(node -> data.leftEventNumber - 1);
-                node -> right = NULL;
+            else if (temp -> data.leftEventNumber != -1 && temp -> data.rightEventNumber == -1) {
+                temp -> left = vectorOfNodes.at(temp -> data.leftEventNumber - 1);
+                temp -> right = NULL;
             }
             else {
-                node -> left = vectorOfNodes.at(node -> data.leftEventNumber - 1);
-                node -> right = vectorOfNodes.at(node -> data.rightEventNumber - 1);
+                temp -> left = vectorOfNodes.at(temp -> data.leftEventNumber - 1);
+                temp -> right = vectorOfNodes.at(temp -> data.rightEventNumber - 1);
             }
         }
     }
