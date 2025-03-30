@@ -1,17 +1,14 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/jIKk4bke)
+
 # CS210 Data Structures SP25
 ## Programming Assignment 2: Text-Based RPG Using Decision Trees
 
-### **Student Name:** `[Your Name]`  
-### **Student ID:** `[Your ID]`  
+### **Jason Pham**
+### **Student ID:132526911**
 
 ---
 
 ## **1. Project Overview**
-(Provide a brief summary of your RPG game. Describe how it uses a decision tree and how the player interacts with it.)
-
-Example:
-> This project implements a text-based RPG using a **binary decision tree**. Each game event is represented as a node, and the player progresses by choosing between two paths at each stage. The storyline is loaded from an external text file (`story.txt`), which is parsed to construct the decision tree. The game ends when a leaf node (with `-1` as left and right children) is reached.
+This is a text-based RPG that uses a binary tree to create pathways. The information on the storylines and pathways is contained in a story.txt file. The GameDecisionTree.h file contains most of the code that runs the program. This file is what loads the data from the story.txt file into a binary decision tree (more about how this works later). This file also contains the function that allows the user to play the game (called playGame() ). All the user needs to do is run the program, enter 1 or 2 to decide a path, and continue until they reach an ending. If they enter anything other than 1 or 2, the console will loop, asking the user to input either 1 or 2.
 
 ---
 
@@ -27,39 +24,35 @@ Example:
 ---
 
 ## **3. Decision Tree Construction**
-(Explain how the decision tree is built from the `story.txt` file.)
 
-- How are `Story` objects created from the text file?  
-- How are nodes linked based on left and right event numbers?  
-- What happens if an event has `-1` as left or right children?  
+GameDecisionTree.h has a function (called loadStoryFromFile() ) that loads the data by opening a filestream and using getline() along with delimiters repeatedly. Each line is loaded into a Story object, and every Story object is the data for a Node. Each Node is inserted into a vector of Node pointers. After establishing the root Node as the first Node in the vector, the function then iterates through every Node and attaches the left and right children to the correct Nodes by accessing their index. For example, line 1 of the story.txt file ends with |2|3|. This tells the file that the left child will be on line 2 (which is index 1 of the vector) and that the right child will be on line 3 (index 2). The leaf nodes will point to null, which is represented as -1 in the story.txt file. 
 
 ---
 
 ## **4. Game Traversal**
 (Describe how the game moves through the decision tree.)
+As soon as the user runs the program, the console will display the root Node Story and ask for a decision. The user can either enter 1 or 2 to proceed, and if they do not, the console will loop infinitely asking for a 1 or 2. When the player reaches a leaf node, the game will notify the player that they have reached the ending and then exit.
 
-- How does user input determine the path taken?  
-- What happens when the player reaches a leaf node?  
-- Explain the special case where multiple events lead to the same outcome.  
+There is one special case where multiple events lead to the same outcome. This is on line 15, and both children of this node are on line 30. For the user, this is when they input 2,2,2 in that order. After inputting 2,2,2, their next option will not matter as both point to the same Node and the same ending.
 
 ---
 
 ## **5. File Parsing & Data Loading**
 (Explain the process of reading `story.txt` and constructing the decision tree.)
 
-- How is the file read and parsed using a delimiter?  
-- How do you ensure nodes are properly linked?  
-- Any challenges faced while handling file input?  
+The file reads each line by using getLine, which puts the line into a string. Using getLine again, but with the delimiter '|', each line is separated into its respective parts. These parts are passed into a Story constructor argument. The Nodes have to be properly linked IN THE FILE rather than by the code. In other words, if one line of the story.txt file has incorrect information, the game will work incorrectly. The game will still run, but the path will not be correct. It is important that the story.txt file is created correctly to ensure that the game runs correctly.
+
+The only difficulty while handling file input was initially opening the file, as the file name is not enough to work. The file must be placed in the same folder as the CS210PA2.exe file in order to run like that. As per assignment instructions, our story.txt file must be in the LastName_FirstNameRPG folder. Therefore, I had to add "../Pham_JasonRPG/" to the file name, which essentially tells the program to back out of the folder that contains the CS210PA2.exe file and enter the folder named Pham_JasonRPG to look for the correct file.
 
 ---
 
 ## **6. Debugging Process (Errors & Fixes)**
 (Describe one or more debugging challenges you faced and how you fixed them.)
 
-Example:
-> Initially, my program was crashing when trying to access an uninitialized node. I realized it was because I was not properly checking for `nullptr` before accessing child nodes, so I added a check to prevent accessing uninitialized memory.
-
----
+Most code worked as intended in the first run. There were about three times when they didn't.
+1. The first was detailed in #5, which is when I wasn't able to open the file correctly.
+2. The second is actually separating the lines into their respective data. I didn't know that the getline method can only work when the first argument passes a stream rather than a string. I had to convert the string I had containing the relevant line into a stringstream, which worked.
+3. The last is when the code gave an error that it was accessing indexes in the vector that didn't exist. As mentioned before, errors like this happen because the .txt file was created incorrectly. I had mistyped a number (7 instead of 6), so the code looked for the Node at index 6 instead of 5. This caused an error, and I was able to fix it by adjusting the .txt file accordingly.
 
 ## **7. Sample Output & Walkthrough**
 (Provide an example of how the game runs, including player input.)
