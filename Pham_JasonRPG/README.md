@@ -15,11 +15,19 @@ This is a text-based RPG that uses a binary tree to create pathways. The informa
 ## **2. Folder & File Structure**
 (Explain the role of each file in your project.)
 
-- **`main.cpp`** → `[Describe its function]`  
-- **`GameDecisionTree.h`** → `[Explain what this file contains]`  
-- **`Node.h`** → `[Explain what this file contains]`  
-- **`Story.h`** → `[Explain what this file contains]`  
-- **`story.txt`** → `[Explain how the game loads story events from this file]`  
+- **`main.cpp`** → This method creates a GameDecisionTree object and sets the filename to "story.txt" and the delimiter to '|'. It then calls loadStoryFromFile() and playGame().
+  
+- **`GameDecisionTree.h`** → This file contains 3 important methods: loadStoryFromFile(), playGame(), and validateUserInput()
+        - loadStoryFromFile() opens an input stream to the story.txt file and reads every line, creating a Story and Node object for each line in the file. It loads these objects into a vector and then iterates through the vector, attaching the correct children to every Node.
+        - playGame() prints the root Node's story to the console and prompts the user to make a choice. It then progresses through the binary decision tree using a while loop until the user reaches a leaf Node.
+        - validateUserInput() is called anytime we want to take in user input to make a decision. It contains a while loop that only stops when the user enters either of the correct options (1 or 2).
+  
+- **`Node.h`** → This file contains the template for a Node object that has 3 public variables: data, *left, and *right. *left and *right are Node pointers. This file also contains a constructor that sets the data to whatever argument was passed and sets *left and *right to NULL.
+
+- **`Story.h`** → This file contains a Story object that has public variables for the description of an event in the RPG, the eventNumber, the leftEventNumber (for the left child), and the rightEventNumber (for the right child). It also has two constructors, one that sets all ints to 0 and all strings to "", while the other sets all the public variables to their corresponding arguments.
+   
+- **`story.txt`** → Each line in this .txt file has 4 parts: the Event Number, the description, the left Event Number, and the right Event number.  All these parts are separated by the delimiter '|'. The loadStoryFromFile() method iterates through every line and creates its respective Story and Node objects. These objects are then inserted into a vector, and then the method iterates through every Node in the vector and attaches each Node to its corresponding children.
+- /
 
 ---
 
