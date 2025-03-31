@@ -96,7 +96,7 @@ public:
         if (typeOfLeaf == "Single Option") {
             cin >> userInput;
             while (userInput != "1") {
-                cout << "Please press enter 1 to continue.";
+                cout << "Please press enter 1 to continue. -";
                 cin >> userInput;
             }
             return 1;
@@ -105,12 +105,12 @@ public:
         if (typeOfLeaf == "Double Option") {
             cin >> userInput;
             while (userInput != "1" && userInput != "2") {
-                cout << "Please enter either 1 or 2 to choose your path.";
+                cout << "Please enter either 1 or 2 to choose your path. -";
                 cin >> userInput;
             }
             return stoi(userInput);
         }
-        return 1; //placeholder line, to avoid errors, this will never actually run.
+        return 1; //placeholder line to avoid errors, this will never actually run.
     }
 
 };
